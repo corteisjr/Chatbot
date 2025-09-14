@@ -3,6 +3,7 @@ from typing import Optional
 
 class ChatRequest(BaseModel):
     message: str
+    session_id: str
 
 class ChatResponse(BaseModel):
     answer: str

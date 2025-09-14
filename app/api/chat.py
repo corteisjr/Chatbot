@@ -7,5 +7,5 @@ qa_service = QAService()
 
 @router.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
-    answer, latency_ms = qa_service.get_answer(request.message)
+    answer, latency_ms = qa_service.get_answer_with_history(request.message, request.session_id)
     return ChatResponse(answer=answer, latency_ms=latency_ms)
