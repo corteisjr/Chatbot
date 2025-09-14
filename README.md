@@ -1,0 +1,1 @@
+# API de Chat de Perguntas & Respostas com FastAPI e LangChain
