@@ -23,8 +23,9 @@ if USE_OLLAMA:
     model = ChatOllama(model=OLLAMA_MODEL, temperature=0.4)
     embeddings = OllamaEmbeddings(model=OLLAMA_MODEL)
 else:
+    OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
     model = ChatOpenAI(
-        model="gpt-4o",
+        model=OPENAI_MODEL,
         temperature=0
     )
     embeddings = OpenAIEmbeddings()
