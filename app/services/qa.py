@@ -5,21 +5,29 @@ from typing import List, Tuple
 
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_community.chat_models import ChatOllama
 from langchain_core.output_parsers import StrOutputParser
 from langchain_community.chat_message_histories import SQLChatMessageHistory
 from langchain_core.runnables import RunnablePassthrough, RunnableWithMessageHistory
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
+from langchain_ollama import ChatOllama, OllamaEmbeddings
 
 load_dotenv()
 
-model = ChatOpenAI(
-    model="gpt-4o",
-    temperature=0
-)
+USE_OLLAMA = os.getenv("USE_OLLAMA", "false").lower() == "true"
 
-embeddings = OpenAIEmbeddings()
+if USE_OLLAMA:
+    OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3")
+    model = ChatOllama(model=OLLAMA_MODEL, temperature=0.4)
+    embeddings = OllamaEmbeddings(model=OLLAMA_MODEL)
+else:
+    model = ChatOpenAI(
+        model="gpt-4o",
+        temperature=0
+    )
+    embeddings = OpenAIEmbeddings()
 
 class QAService:
     def __init__(self):
